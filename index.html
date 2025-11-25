@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="./favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+		<link href="./_app/immutable/assets/2.gEJMGZxo.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.CL42AFqc.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/B6VTxRfM.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/C4pY3C6E.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.BTVcnyr9.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/BfQPO7_g.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.DT7vo2iq.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/2.DU_kNxVs.js">
+	</head>
+
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">  <div class="grid-container svelte-77x811" data-svelte-h="svelte-1w7c48y"><div class="center-feed-bar svelte-77x811"></div> <div class="center-feed svelte-77x811"><h1 class="svelte-77x811">cortexa53
+            <hr style="margin-top:3px;"></h1> <div class="center-feed-posts svelte-77x811"><h2 class="svelte-77x811">zipRev</h2> <p style="margin-top:0.5%;margin-bottom:2%;font-size:12px;" class="svelte-77x811">Haskell; functional programming (10.19.25)</p> <p class="svelte-77x811">A question- is it possible to reverse a functional list, then zip it with another list, in one pass?  In Haskell, a solution to this problem looks something like this:</p> <pre>zipRev = foldl f b
+    where   b = const []
+            f z x = \case
+                        [] -&gt; []
+                        (y:ys) -&gt; (x,y) : z ys
+            </pre> <p class="svelte-77x811">Note that this requires the <code>LambdaCase</code> extension.</p> <p class="svelte-77x811"> </p> <p class="svelte-77x811">The function is a pretty elegant application of <code>foldl</code>, but I don&#39;t think its implementation is intuitively obvious - which begs the question of how one might come up with it from scratch.</p> <p class="svelte-77x811"> </p> <p class="svelte-77x811">Defining <code>zip</code> in terms of <code>foldr</code> and some folding function <code>g</code> is a potentially fruitful start, 
+            since <code>foldl (flip g)</code> can be loosely thought of as folding the first input list in &quot;reverse&quot;.</p> <p class="svelte-77x811"> </p> <p class="svelte-77x811"><code>zip = foldr g b</code> implies that <code>zip xs = foldr g b xs</code>.</p> <p class="svelte-77x811"> </p> <p class="svelte-77x811">Thus, <code>zip [] = b</code> by the definition of <code>foldr</code>, meaning that <code>b = \ys -&gt; []</code> or <code>const []</code> based on the semantics of <code>zip</code>.</p> <p class="svelte-77x811"> </p> <p class="svelte-77x811">At the same time, <code>zip (x:xs) = g x (foldr g b xs)</code>, meaning that <code>zip (x:xs) ys = g x (foldr g b xs) ys</code>.</p> <p class="svelte-77x811"> </p> <p class="svelte-77x811">This tells us that our folding function <code>g</code> takes the head of <code>xs</code>, the result of folding its tail, and <code>ys</code> as arguments and returns a zipped list.  Remembering that
+            folding its tail yields a function that zips its tail with whatever list you apply it to, we can straightforwardly define <code>g</code> as:</p> <pre>g x z = \case
+            [] -&gt; []
+            (y:ys) -&gt; (x,y) : z ys
+            </pre> <p class="svelte-77x811">Now, <code>foldl (flip g) b</code> builds up a thunk such that the outermost application of <code>flip g</code> is partially applied to the last element of <code>xs</code>, 
+            before being applied to <code>ys</code>.  This is the behavior we want - the elements of <code>xs</code> are being paired up with the elements of <code>ys</code> in reverse order!</p> <p class="svelte-77x811"> </p> <p class="svelte-77x811">With this in mind, we can define <code>f = flip g</code> and <code>zipRev = foldl f b</code>.</p></div></div> </div> 
+			
+			<script>
+				{
+					__sveltekit_1ju3vhy = {
+						base: new URL(".", location).pathname.slice(0, -1),
+						assets: "/cortexa53"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("./_app/immutable/entry/start.CL42AFqc.js"),
+						import("./_app/immutable/entry/app.BTVcnyr9.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 2],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>
